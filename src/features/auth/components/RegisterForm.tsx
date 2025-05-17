@@ -1,12 +1,12 @@
 import { Loader2 } from "lucide-react"
 import { Button } from "@/app/components/ui/button"
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
 } from "@/app/components/ui/form"
 import { Input } from "@/app/components/ui/input"
 import { useRegister } from "../hooks/useRegister"
@@ -58,7 +58,7 @@ export const RegisterForm = () => {
                     )}
                 />
                 <Button disabled={loading} type="submit">
-                    { loading && <Loader2 className="animate-spin" />}
+                    {loading && <Loader2 className="animate-spin" />}
                     Register
                 </Button>
             </form>
