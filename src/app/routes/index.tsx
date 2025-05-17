@@ -1,11 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
 import HomeLayout from "@/app/layouts/HomeLayout";
+import RequireAuth from "../components/guard/RequireAuth";
 import AuthenticationLayout from "@/app/layouts/AuthenticationLayout";
 import DashboardLayout from "../layouts/DashboardLayout";
 import Home from "@/features/home/pages/Home"
 import Auth from "@/features/auth/pages/Auth";
 import Overview from "@/features/dashboard/pages/Overview";
-import RequireAuth from "../components/guard/RequireAuth";
 
 const router = createBrowserRouter([
     {
