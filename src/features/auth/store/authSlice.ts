@@ -2,6 +2,8 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { initialState } from "../constant/init.state";
 import { login, register, me } from './authThunks'
 import { StorageUtils } from "@/app/lib/storage";
+import { handleRejectedError } from "@/app/lib/error";
+import { toast } from "sonner";
 
 const authSlice = createSlice({
     name: 'auth',
@@ -29,36 +31,37 @@ const authSlice = createSlice({
     },
     extraReducers: (builder) => {
 
-        builder.addCase(login.fulfilled, (state, action) => {
+        builder
+            .addCase(login.fulfilled, (state, action) => {
 
-            const { jwt, user } = action.payload
-            StorageUtils.setItem('token', jwt)
-            StorageUtils.setItem('user', JSON.stringify(user))
-            state.token = jwt
-            state.user = user
+                const { jwt, user } = action.payload
+                StorageUtils.setItem('token', jwt)
+                StorageUtils.setItem('user', JSON.stringify(user))
+                state.token = jwt
+                state.user = user
 
-            console.log("response")
-            console.log(jwt)
-            console.log(user)
+                toast("Login successfully")
 
-        })
+            })
+            .addCase(login.rejected, (state, action) => handleRejectedError(action))
+            .addCase(register.fulfilled, (state, action) => {
 
-        builder.addCase(register.fulfilled, (state, action) => {
+                const { jwt, user } = action.payload;
+                StorageUtils.setItem('token', jwt);
+                state.token = jwt;
+                state.user = user;
 
-            const { jwt, user } = action.payload;
-            StorageUtils.setItem('token', jwt);
-            state.token = jwt;
-            state.user = user;
+                toast("Register successfully")
 
-        });
+            })
+            .addCase(register.rejected, (state, action) => handleRejectedError(action))
+            .addCase(me.fulfilled, (state, action) => {
 
-        builder.addCase(me.fulfilled, (state, action) => {
+                state.user = action.payload;
+                StorageUtils.setItem('user', action.payload)
 
-            state.user = action.payload;
-            StorageUtils.setItem('user', action.payload)
-
-        });
-
+            })
+            .addCase(me.rejected, (state, action) => handleRejectedError(action))
     }
 })
 

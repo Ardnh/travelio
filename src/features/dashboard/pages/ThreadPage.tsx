@@ -1,12 +1,12 @@
 import { Fragment } from "react/jsx-runtime"
 
-const Home = () => {
+const ThreadPage = () => {
 
     return (
         <Fragment>
-            <div className="">This is Home</div>
+            <div className="">this is thread</div>
         </Fragment>
     )
 }
 
-export default Home;
+export default ThreadPage

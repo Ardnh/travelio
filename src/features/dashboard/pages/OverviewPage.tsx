@@ -1,6 +1,6 @@
 import { Fragment } from "react/jsx-runtime"
 
-const Overview = () => {
+const OverviewPage = () => {
 
     return (
         <Fragment>
@@ -9,4 +9,4 @@ const Overview = () => {
     )
 }
 
-export default Overview
+export default OverviewPage

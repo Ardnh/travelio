@@ -3,7 +3,7 @@ import { useAuth } from "../hooks/useAuth"
 import { LoginForm } from "../components/LoginForm"
 import { RegisterForm } from "../components/RegisterForm"
 
-const Auth = () => {
+const AuthPage = () => {
 
     const { mode, setMode } = useAuth()
 
@@ -33,4 +33,4 @@ const Auth = () => {
     )
 }
 
-export default Auth
+export default AuthPage
