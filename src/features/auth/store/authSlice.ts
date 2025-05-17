@@ -2,7 +2,6 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { initialState } from "../constant/init.state";
 import { login, register, me } from './authThunks'
 import { StorageUtils } from "@/app/lib/storage";
-import { use } from "react";
 
 const authSlice = createSlice({
     name: 'auth',
