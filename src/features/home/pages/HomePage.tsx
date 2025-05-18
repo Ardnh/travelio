@@ -1,6 +1,6 @@
 import { Fragment } from "react/jsx-runtime"
 
-const Home = () => {
+const HomePage = () => {
 
     return (
         <Fragment>
@@ -9,4 +9,4 @@ const Home = () => {
     )
 }
 
-export default Home;
+export default HomePage;

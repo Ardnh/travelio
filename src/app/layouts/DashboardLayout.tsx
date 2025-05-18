@@ -1,12 +1,22 @@
 import { Outlet } from "react-router";
-import { Fragment } from "react/jsx-runtime"
+import { SidebarProvider, SidebarTrigger } from "../components/ui/sidebar";
+import { AppSidebar } from "../components/global/AppSidebar";
 
 const DashboardLayout = () => {
 
     return (
-        <Fragment>
-            <Outlet/>
-        </Fragment>
+        <SidebarProvider>
+            <AppSidebar />
+            <main className="w-full">
+                <div className="w-full h-[3rem] flex items-center justify-start px-5">
+                    <SidebarTrigger />
+                    <div className="ml-5">Overview</div>
+                </div>
+                <div className="p-5">
+                    <Outlet/>
+                </div>
+            </main>
+        </SidebarProvider>
     )
 }
 

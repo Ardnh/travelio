@@ -3,9 +3,11 @@ import HomeLayout from "@/app/layouts/HomeLayout";
 import AuthenticationLayout from "@/app/layouts/AuthenticationLayout";
 import RequireAuth from "../components/guard/RequireAuth";
 import DashboardLayout from "../layouts/DashboardLayout";
-import Home from "@/features/home/pages/Home"
-import Auth from "@/features/auth/pages/Auth";
-import Overview from "@/features/dashboard/pages/Overview";
+import HomePage from "@/features/home/pages/HomePage"
+import AuthPage from "@/features/auth/pages/AuthPage";
+import ArticlesPage from "@/features/dashboard/pages/ArticlesPage";
+import CategoryPage from "@/features/dashboard/pages/CategoryPage";
+import ThreadPage from "@/features/dashboard/pages/ThreadPage";
 
 const router = createBrowserRouter([
     {
@@ -14,7 +16,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '',
-                element: <Home/>
+                element: <HomePage/>
             }
         ]
     },
@@ -24,7 +26,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '',
-                element: <Auth/>
+                element: <AuthPage/>
             }
         ]
     },
@@ -38,7 +40,15 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '',
-                element: <Overview/>
+                element: <ThreadPage/>
+            },
+            {
+                path: '/dashboard/articles',
+                element: <ArticlesPage/>
+            },
+            {
+                path: '/dashboard/category',
+                element: <CategoryPage/>
             }
         ]
     },
