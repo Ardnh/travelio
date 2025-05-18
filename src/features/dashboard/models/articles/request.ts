@@ -11,5 +11,5 @@ export interface Data {
 
 export interface UpdateArticleRequest {
     id: string,
-    data: CreateArticleRequest
+    data: Data
 }

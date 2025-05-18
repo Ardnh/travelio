@@ -11,18 +11,19 @@ export const handleHttpError = (error: unknown, thunkAPI: any) => {
     return thunkAPI.rejectWithValue('Unknown error');
 }
 
-export const handleRejectedError = (action : PayloadAction< string | ResponseError | undefined >) => {
-
-    if (typeof action.payload === 'string') {
-        toast.error("Failed to login", {
-            description: action.payload
-        })
-    } else if (typeof action.payload === 'object') {
-        const { error } = action.payload as ResponseError
-        toast.error(error.name, {
-            description: error.message,
-        })
+export const handleRejectedError = (action: PayloadAction<string | ResponseError | undefined>, fallbackTitle = "Action failed") => {
+    if (typeof action.payload === "string") {
+        toast.error(fallbackTitle, {
+            description: action.payload,
+        });
+    } else if (typeof action.payload === "object" && action.payload?.error) {
+        const { error } = action.payload as ResponseError;
+        toast.error(error.name || fallbackTitle, {
+            description: error.message || "Something went wrong",
+        });
     } else {
-        toast.error("Something went wrong")
+        toast.error(fallbackTitle, {
+            description: "Something went wrong",
+        });
     }
-}
+};

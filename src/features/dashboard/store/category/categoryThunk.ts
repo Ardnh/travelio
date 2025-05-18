@@ -22,6 +22,6 @@ export const updateCategoryById = createAsyncThunk<UpdateCategoryByIdResponse, U
     await handleThunkRequest(() => api.put(`${CategoryApi.UpdateCategory}/${payload.id}`, payload.data), thunkAPI)
 )
 
-export const createCategoryById = createAsyncThunk<CreateCategoryByIdResponse, CreateCategoryRequest , { rejectValue: string | ResponseError }>('category/createCategoryById', async (payload, thunkAPI) => 
-    await handleThunkRequest(() => api.put(CategoryApi.CreateCategory, payload), thunkAPI)
+export const createCategory = createAsyncThunk<CreateCategoryByIdResponse, CreateCategoryRequest , { rejectValue: string | ResponseError }>('category/createCategoryById', async (payload, thunkAPI) => 
+    await handleThunkRequest(() => api.post(CategoryApi.CreateCategory, payload), thunkAPI)
 )

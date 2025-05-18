@@ -4,6 +4,7 @@ export interface CreateCategoryRequest {
 
 export interface Data {
   name: string
+  description: string
 }
 
 export interface UpdateCategoryRequest {

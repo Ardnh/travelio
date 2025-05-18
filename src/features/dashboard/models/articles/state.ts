@@ -1,3 +1,5 @@
+import type { Category } from "../categories/state"
+
 export interface Article {
     id: number
     documentId: string
@@ -9,6 +11,7 @@ export interface Article {
     publishedAt: string
     locale: any
     comments: Comment[]
+    category: Category | null
 }
 
 export interface Comment {
@@ -58,9 +61,15 @@ export interface ArticleParams {
     populate: boolean
 }
 
+export type DialogType = 'View' | 'Edit' | 'Create' | null
+
 export interface ArticleInitialState {
     articles: Article[],
-    articlesParams: ArticleParams
+    articlesParams: ArticleParams,
+    showDialog: {
+        type: DialogType,
+        data: Article | null
+    }
     loading: {
         getListArticleIsLoading: boolean
         getArticleByIdIsLoading: boolean

@@ -1,19 +1,17 @@
 "use client"
-
-import * as React from "react"
 import {
-    type ColumnDef,
-    type ColumnFiltersState,
-    type SortingState,
-    type VisibilityState,
     flexRender,
     getCoreRowModel,
     getFilteredRowModel,
     getPaginationRowModel,
     getSortedRowModel,
     useReactTable,
+    type ColumnDef,
+    type ColumnFiltersState,
+    type SortingState,
+    type VisibilityState,
 } from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
+import { ChevronDown, Copy, Loader2, MoreHorizontal, PenLine, Plus, SquareKanban, Trash2, } from "lucide-react"
 
 import { Button } from "@/app/components/ui/button"
 import {
@@ -34,91 +32,85 @@ import {
     TableHeader,
     TableRow,
 } from "@/app/components/ui/table"
+import type { TableProps } from "../../models/articles/props"
+import type { Article, User } from "../../models/articles/state"
+import type { Category } from "../../models/categories/state"
 import { useState } from "react"
 
-const data: Payment[] = [
-    {
-        id: "m5gr84i9",
-        amount: 316,
-        status: "success",
-        email: "ken99@example.com",
-    },
-    {
-        id: "3u1reuv4",
-        amount: 242,
-        status: "success",
-        email: "Abe45@example.com",
-    },
-    {
-        id: "derv1ws0",
-        amount: 837,
-        status: "processing",
-        email: "Monserrat44@example.com",
-    },
-    {
-        id: "5kma53ae",
-        amount: 874,
-        status: "success",
-        email: "Silas22@example.com",
-    },
-    {
-        id: "bhqecj4p",
-        amount: 721,
-        status: "failed",
-        email: "carmella@example.com",
-    },
-]
+import { showArticleDialog } from "../../store/articles/articlesSlice"
+import { useAppDispatch, useAppSelector } from "@/app/stores"
+import { deleteArticleById, getArticleList } from "../../store/articles/articlesThunks"
 
-export type Payment = {
-    id: string
-    amount: number
-    status: "pending" | "processing" | "success" | "failed"
-    email: string
-}
-
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Article>[] = [
     {
-        accessorKey: "status",
-        header: "Status",
+        accessorKey: "title",
+        header: "Title",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("status")}</div>
+            <div className="capitalize truncate">{row.getValue("title")}</div>
         ),
     },
     {
-        accessorKey: "email",
-        header: ({ column }) => {
+        accessorKey: "comments",
+        header: "Comments",
+        cell: ({ row }) => {
+            const comment = row.getValue("comments") as Comment[]
             return (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Email
-                    <ArrowUpDown />
-                </Button>
+                <div className="capitalize">{comment.length}</div>
             )
-        },
-        cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+        }
     },
     {
-        accessorKey: "amount",
-        header: () => <div className="text-right">Amount</div>,
+        accessorKey: "category",
+        header: "Category",
         cell: ({ row }) => {
-            const amount = parseFloat(row.getValue("amount"))
-
-            // Format the amount as a dollar amount
-            const formatted = new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "USD",
-            }).format(amount)
-
-            return <div className="text-right font-medium">{formatted}</div>
-        },
+            const category = row.getValue("category") as Category
+            return (
+                <div className="capitalize">{category && category.name !== null ? category.name : 'No category'}</div>
+            )
+        }
+    },
+    {
+        accessorKey: "user",
+        header: "Username",
+        cell: ({ row }) => {
+            const user = row.getValue("user") as User
+            return (
+                <div className="capitalize">{user.username}</div>
+            )
+        }
+    },
+    {
+        accessorKey: "email",
+        header: "Email",
+        cell: ({ row }) => {
+            const user = row.getValue("user") as User
+            return (
+                <div className="capitalize">{user.email}</div>
+            )
+        }
+    },
+    {
+        accessorKey: "publishedAt",
+        header: "Publish",
+        cell: ({ row }) => {
+            const publishedAt = row.getValue("publishedAt") as string
+            return (
+                <div className="capitalize">{publishedAt}</div>
+            )
+        }
     },
     {
         id: "actions",
         enableHiding: false,
         cell: ({ row }) => {
-            const payment = row.original
+            const article = row.original
+            const dispatch = useAppDispatch()
+            const { articlesParams, loading } = useAppSelector((state) => state.article)
+
+            const onDeleteArticle = async () => {
+                await dispatch(deleteArticleById(article.documentId)).unwrap()
+                await dispatch(getArticleList(articlesParams))
+            }
 
             return (
                 <DropdownMenu>
@@ -130,14 +122,12 @@ export const columns: ColumnDef<Payment>[] = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(payment.id)}
-                        >
-                            Copy payment ID
-                        </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>View customer</DropdownMenuItem>
-                        <DropdownMenuItem>View payment details</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => dispatch(showArticleDialog({ article, type: 'View' })) }><SquareKanban /> View Article</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => dispatch(showArticleDialog({ article, type: 'Edit' })) }><PenLine className="text-violet-400" /> Edit Article</DropdownMenuItem>
+                        <DropdownMenuItem onClick={onDeleteArticle}>
+                            {loading.deleteArticleIsLoading ? <Loader2 className="animate-spin" /> : <Trash2 className="text-red-400" />} Delete Article
+                        </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             )
@@ -145,14 +135,21 @@ export const columns: ColumnDef<Payment>[] = [
     },
 ]
 
-export default function DataTableDemo() {
+
+export type ArticleActionProps = {
+    article: Article
+}
+
+export default function DataTableDemo({ articles }: TableProps) {
+
+    const dispatch = useAppDispatch()
     const [sorting, setSorting] = useState<SortingState>([])
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
     const [rowSelection, setRowSelection] = useState({})
 
     const table = useReactTable({
-        data,
+        data: articles,
         columns,
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
@@ -172,41 +169,46 @@ export default function DataTableDemo() {
 
     return (
         <div className="w-full">
-            <div className="flex items-center py-4">
+            <div className="flex items-center justify-between py-4">
                 <Input
-                    placeholder="Filter emails..."
-                    value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+                    placeholder="Filter title..."
+                    value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
                     onChange={(event) =>
-                        table.getColumn("email")?.setFilterValue(event.target.value)
+                        table.getColumn("title")?.setFilterValue(event.target.value)
                     }
                     className="max-w-sm"
                 />
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-auto">
-                            Columns <ChevronDown />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        {table
-                            .getAllColumns()
-                            .filter((column) => column.getCanHide())
-                            .map((column) => {
-                                return (
-                                    <DropdownMenuCheckboxItem
-                                        key={column.id}
-                                        className="capitalize"
-                                        checked={column.getIsVisible()}
-                                        onCheckedChange={(value: any) =>
-                                            column.toggleVisibility(!!value)
-                                        }
-                                    >
-                                        {column.id}
-                                    </DropdownMenuCheckboxItem>
-                                )
-                            })}
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                <div className="flex items-center justify-end gap-2">
+                    <Button onClick={() => dispatch(showArticleDialog({ article: null, type: 'Create' })) }>
+                        <Plus /> Article
+                    </Button>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="outline" className="ml-auto">
+                                Columns <ChevronDown />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            {table
+                                .getAllColumns()
+                                .filter((column) => column.getCanHide())
+                                .map((column) => {
+                                    return (
+                                        <DropdownMenuCheckboxItem
+                                            key={column.id}
+                                            className="capitalize"
+                                            checked={column.getIsVisible()}
+                                            onCheckedChange={(value: any) =>
+                                                column.toggleVisibility(!!value)
+                                            }
+                                        >
+                                            {column.id}
+                                        </DropdownMenuCheckboxItem>
+                                    )
+                                })}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
             </div>
             <div className="rounded-md border">
                 <Table>

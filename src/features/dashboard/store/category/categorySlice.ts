@@ -1,7 +1,9 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { initialState } from "../../constant/stateCategory";
-import { createCategoryById, deleteCategoryById, getCategoryById, getCategoryList, updateCategoryById } from "./categoryThunk"; 
+import { initialState, type ShowCategoryDialog } from "../../constant/stateCategory";
+import { createCategory, deleteCategoryById, getCategoryById, getCategoryList, updateCategoryById } from "./categoryThunk"; 
 import { handleRejectedError } from "@/app/lib/error";
+import { formatDate } from "@/app/lib/date";
+import { toast } from "sonner";
 
 export const categorySlice = createSlice({
     name: 'category',
@@ -32,29 +34,88 @@ export const categorySlice = createSlice({
                 default:
                     break;
             }
+        },
+        setDialog: (state, action: PayloadAction<ShowCategoryDialog>) => {
+            if(action.payload.type === null) {
+                state.showDialog.category = null
+                state.showDialog.type = null
+            } else {
+                state.showDialog.category = action.payload.category
+                state.showDialog.type = action.payload.type
+            }
         }
     },
     extraReducers: (builder) => {
         builder
-            .addCase(getCategoryList.fulfilled, (state, action) => {
 
+            // ============================================================================================
+            .addCase(getCategoryList.pending, (state) => { state.loading.getListCategoryIsLoading = true })
+            .addCase(getCategoryList.fulfilled, (state, action) => {
+                state.category = action.payload.data !== null ? action.payload.data.map((item) => {
+                    return {
+                        ...item,
+                        publishedAt: formatDate(item.publishedAt),
+                        createdAt: formatDate(item.createdAt)
+                    }
+                }) : []
+
+                state.loading.getListCategoryIsLoading = false
             })
-            .addCase(getCategoryList.rejected, (state, action) => handleRejectedError(action))
+            .addCase(getCategoryList.rejected, (state, action) => {
+                state.loading.getListCategoryIsLoading = false
+                handleRejectedError(action)
+            })
+
+            // ============================================================================================
+            .addCase(getCategoryById.pending, (state) => { state.loading.getCategoryByIdIsLoading = true })
             .addCase(getCategoryById.fulfilled, (state, action) => {
 
+                state.loading.getCategoryByIdIsLoading = false
             })
-            .addCase(getCategoryById.rejected, (state, action) => handleRejectedError(action))
+            .addCase(getCategoryById.rejected, (state, action) => {
+                state.loading.getCategoryByIdIsLoading = false
+                handleRejectedError(action)
+            })
+
+            // ============================================================================================
+            .addCase(updateCategoryById.pending, (state) => { state.loading.updateCategoryIsLoading = true })
             .addCase(updateCategoryById.fulfilled, (state, action) => {
-
+                state.loading.updateCategoryIsLoading = false
+                state.showDialog.category = null
+                state.showDialog.type = null
+                toast.success("Category updated")
             })
-            .addCase(updateCategoryById.rejected, (state, action) => handleRejectedError(action))
-            .addCase(createCategoryById.fulfilled, (state, action) => {
-
+            .addCase(updateCategoryById.rejected, (state, action) => {
+                state.loading.updateCategoryIsLoading = false
+                handleRejectedError(action)
             })
-            .addCase(createCategoryById.rejected, (state, action) => handleRejectedError(action))
+
+            // ============================================================================================
+            .addCase(createCategory.pending, (state) => { state.loading.createCategoryIsLoading = true })
+            .addCase(createCategory.fulfilled, (state, action) => {
+                state.loading.createCategoryIsLoading = false
+                state.showDialog.category = null
+                state.showDialog.type = null
+                toast.success("Category created")
+            })
+            .addCase(createCategory.rejected, (state, action) => {
+                state.loading.createCategoryIsLoading = false    
+                handleRejectedError(action)
+            })
+
+            // ============================================================================================
+            .addCase(deleteCategoryById.pending, (state) => { state.loading.getListCategoryIsLoading = true })
             .addCase(deleteCategoryById.fulfilled, (state, action) => {
-
+                state.loading.deleteCategoryIsLoading = false
+                toast.success("Category deleted")
             })
-            .addCase(deleteCategoryById.rejected, (state, action) => handleRejectedError(action))
+            .addCase(deleteCategoryById.rejected, (state, action) => {  
+                state.loading.deleteCategoryIsLoading = false
+                handleRejectedError(action)
+            })
     }
 })
+
+
+export const { setLoading, setDialog } = categorySlice.actions;
+export default categorySlice.reducer

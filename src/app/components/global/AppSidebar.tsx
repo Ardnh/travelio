@@ -11,7 +11,7 @@ export const AppSidebar = () => {
                     <div className="w-full h-[5rem] flex items-center justify-center font-semibold text-[3rem] rounded-xl">Travelio.</div>
                 </SidebarHeader>
                 <SidebarGroup className="h-full">
-                    <SidebarGroupLabel>Application</SidebarGroupLabel>
+                    <SidebarGroupLabel>Features</SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
                             {items.map((item) => (

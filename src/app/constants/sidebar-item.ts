@@ -2,13 +2,8 @@ import { Calendar, Home, Inbox, Tent } from "lucide-react"
 
 export const items = [
     {
-        title: "Overview",
+        title: "Threads",
         url: "/dashboard",
-        icon: Home,
-    },
-    {
-        title: "Thread",
-        url: "/dashboard/thread",
         icon: Tent,
     },
     {

@@ -2,6 +2,10 @@ import type { ArticleInitialState } from "../models/articles/state";
 
 export const initialState : ArticleInitialState = {
     articles: [],
+    showDialog:{
+        type: null,
+        data: null
+    },
     loading: {
         getListArticleIsLoading: false,
         getArticleByIdIsLoading: false,
@@ -11,7 +15,7 @@ export const initialState : ArticleInitialState = {
     },
     articlesParams: {
         page: 1,
-        pageSize: 10,
+        pageSize: 30,
         populateCommentPopulateUser: true,
         populateUser: true,
         populateCategory: true,

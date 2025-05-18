@@ -1,4 +1,4 @@
-export type Root = DetailImage[]
+export type UploadImageResponse = DetailImage[]
 
 export interface DetailImage {
     id: number
