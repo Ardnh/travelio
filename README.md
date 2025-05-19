@@ -1,7 +1,9 @@
 # Travelio.
 
-### Features
+### Preview url
+`<link>` : <https://shiny-genie-38f194.netlify.app>
 
+### Features
 ##### Threads
 - List Category
 - Create New Comment on Article
@@ -26,3 +28,19 @@
 - Tailwindcss 4
 - React Router
 - Vite
+
+### How to use ?
+
+#### 1. Clone this repository 
+
+`$ git clone https://github.com/Ardnh/travelio.git`
+
+#### 2. Install the required packages
+Inside the project folder, run this command
+
+`$ yarn install`
+
+#### 3. Running app
+Inside the project folder, run this command
+
+`$ yarn dev`
