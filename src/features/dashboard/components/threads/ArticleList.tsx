@@ -49,7 +49,7 @@ const ArticlesList = ({ articles, hasMore, loading, fetchMore }: Props) => {
                             >
                                 {
                                     article.cover_image_url === "" ?
-                                        <div className="w-full h-[20rem] rounded-2xl flex justify-center items-center">
+                                        <div className="w-full h-[20rem] rounded-2xl bg-gray-100 flex justify-center items-center">
                                             <ImageOff className="text-5xl" />
                                         </div>
                                         : <img src={article.cover_image_url} className="w-full h-[20rem] rounded-2xl object-cover" />
