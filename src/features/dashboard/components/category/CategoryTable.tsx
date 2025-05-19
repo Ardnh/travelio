@@ -146,16 +146,16 @@ export default function DataTableDemo({ category }: CategoryActionProps) {
 
     return (
         <div className="w-full">
-            <div className="flex items-center justify-between py-4">
+            <div className="grid grid-cols-12 items-center justify-between py-4">
                 <Input
                     placeholder="Filter title..."
                     value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
                     onChange={(event) =>
                         table.getColumn("title")?.setFilterValue(event.target.value)
                     }
-                    className="max-w-sm"
+                    className="col-span-12 md:w-[20rem] md:col-span-10"
                 />
-                <div className="flex items-center justify-end gap-2">
+                <div className="flex items-center justify-end gap-2 col-span-12 md:col-span-2 mt-2 md:mt-0">
                     <Button onClick={() => dispatch(setDialog({ category: null, type: 'Create' })) }>
                         <Plus /> Category
                     </Button>

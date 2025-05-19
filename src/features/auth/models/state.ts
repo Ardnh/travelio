@@ -8,5 +8,6 @@ export interface AuthState {
         loginIsLoading: boolean
         registerIsLoading: boolean
         userIsLoading: boolean
+        logoutIsLoading: boolean
     }
 }

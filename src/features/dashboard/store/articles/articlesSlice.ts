@@ -83,7 +83,8 @@ export const articleSlice = createSlice({
             .addCase(updateArticleById.fulfilled, (state, action) => {
                 toast.success("Article updated")
                 state.loading.updateArticleIsLoading = false
-
+                state.showDialog.data = null
+                state.showDialog.type = null
             })
             .addCase(updateArticleById.rejected, (state, action) => {
                 state.loading.updateArticleIsLoading = false
@@ -95,7 +96,8 @@ export const articleSlice = createSlice({
             .addCase(createArticle.fulfilled, (state, action) => {
                 toast.success("Article created")
                 state.loading.createArticleIsLoading = false
-
+                state.showDialog.data = null
+                state.showDialog.type = null
             })
             .addCase(createArticle.rejected, (state, action) => {
                 state.loading.createArticleIsLoading = false

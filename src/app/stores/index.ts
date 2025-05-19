@@ -5,6 +5,7 @@ import articleSlice from '@/features/dashboard/store/articles/articlesSlice';
 import commentsSlice from '@/features/dashboard/store/comments/commentSlice';
 import categorySlice from '@/features/dashboard/store/category/categorySlice';
 import threadsSlice from "@/features/dashboard/store/threads/threadsSlice"
+import dashboardSlice from '@/features/dashboard/store/dashboard/dashboardSlice';
 
 const store = configureStore({
     reducer: {
@@ -12,7 +13,8 @@ const store = configureStore({
         article: articleSlice,
         comment: commentsSlice,
         category: categorySlice,
-        threads: threadsSlice
+        threads: threadsSlice,
+        dashboard: dashboardSlice
     }
 })
 

@@ -1,9 +1,10 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { initialState } from "../constant/init.state";
-import { login, register, me } from './authThunks'
+import { login, register, me, logout } from './authThunks'
 import { StorageUtils } from "@/app/lib/storage";
 import { handleRejectedError } from "@/app/lib/error";
 import { toast } from "sonner";
+import { delay } from "@/app/lib/utils";
 
 const authSlice = createSlice({
     name: 'auth',
@@ -24,10 +25,14 @@ const authSlice = createSlice({
                     state.loading.userIsLoading = status
                     break;
 
+                case 'logout':
+                    state.loading.logoutIsLoading = status
+                    break;
+
                 default:
                     break;
             }
-        }
+        },
     },
     extraReducers: (builder) => {
 
@@ -62,6 +67,15 @@ const authSlice = createSlice({
 
             })
             .addCase(me.rejected, (state, action) => handleRejectedError(action))
+            .addCase(logout.pending, (state) => {
+                state.loading.logoutIsLoading = true
+            })
+            .addCase(logout.fulfilled, (state, action) => {
+                state.loading.logoutIsLoading = false
+            })
+            .addCase(logout.rejected, (state, action) => {
+                state.loading.logoutIsLoading = false
+            })
     }
 })
 

@@ -1,9 +1,22 @@
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/app/components/ui/sidebar"
 import { items } from "@/app/constants/sidebar-item"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { Button } from "../ui/button"
-import { ArrowLeftFromLine } from "lucide-react"
+import { ArrowLeftFromLine, Loader2 } from "lucide-react"
+import { useAppDispatch, useAppSelector } from "@/app/stores"
+import { logout } from "@/features/auth/store/authThunks"
+import { setCurrentPage } from "@/features/dashboard/store/dashboard/dashboardSlice"
 export const AppSidebar = () => {
+
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate()
+    const { loading } = useAppSelector((state) => state.auth)
+
+    const onLogout = async () => {
+        await dispatch(logout()).unwrap()
+        navigate('/auth')
+    }
+
     return (
         <Sidebar>
             <SidebarContent>
@@ -16,7 +29,7 @@ export const AppSidebar = () => {
                         <SidebarMenu>
                             {items.map((item) => (
                                 <SidebarMenuItem key={item.title}>
-                                    <SidebarMenuButton asChild>
+                                    <SidebarMenuButton asChild onClick={() => dispatch(setCurrentPage(item.title))}>
                                         <Link to={item.url}>
                                             <item.icon />
                                             <span>{item.title}</span>
@@ -28,8 +41,8 @@ export const AppSidebar = () => {
                     </SidebarGroupContent>
                 </SidebarGroup>
                 <SidebarFooter>
-                    <Button>
-                        <ArrowLeftFromLine /> Logout
+                    <Button onClick={onLogout} disabled={ loading.logoutIsLoading }>
+                        { loading.logoutIsLoading ? <Loader2 className="animate-spin"/> : <ArrowLeftFromLine />} Logout
                     </Button>
                 </SidebarFooter>
             </SidebarContent>

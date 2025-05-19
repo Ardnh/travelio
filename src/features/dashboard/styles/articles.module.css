@@ -2,3 +2,8 @@
     background: #b88ff2;
     background: linear-gradient(45deg,rgba(184, 143, 242, 0.55) 0%, rgba(83, 237, 206, 0.41) 100%);
 }
+
+.commentGradient {
+    background: #8ff2e5;
+    background: linear-gradient(45deg, rgba(143, 242, 229, 0.2) 0%, rgba(66, 179, 245, 0.21) 50%, rgba(179, 121, 242, 0.21) 100%);
+}

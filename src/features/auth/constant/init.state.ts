@@ -7,6 +7,7 @@ export const initialState : AuthState = {
     loading: {
         loginIsLoading: false,
         registerIsLoading: false,
-        userIsLoading: false
+        userIsLoading: false,
+        logoutIsLoading: false
     }
 }

@@ -169,16 +169,16 @@ export default function DataTableDemo({ articles }: TableProps) {
 
     return (
         <div className="w-full">
-            <div className="flex items-center justify-between py-4">
+            <div className="grid grid-cols-12 items-center justify-between py-4">
                 <Input
                     placeholder="Filter title..."
                     value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
                     onChange={(event) =>
                         table.getColumn("title")?.setFilterValue(event.target.value)
                     }
-                    className="max-w-sm"
+                    className="max-w-sm col-span-12 md:col-span-10"
                 />
-                <div className="flex items-center justify-end gap-2">
+                <div className="flex items-center justify-end gap-2 col-span-12 md:col-span-2">
                     <Button onClick={() => dispatch(showArticleDialog({ article: null, type: 'Create' })) }>
                         <Plus /> Article
                     </Button>

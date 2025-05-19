@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/app/stores"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState, type ChangeEvent } from "react"
 import { useNavigate } from "react-router-dom"
 import { getArticleList } from "@/features/dashboard/store/articles/articlesThunks"
 import { type SortingState, type ColumnFiltersState, type VisibilityState, useReactTable, getCoreRowModel, getPaginationRowModel, getSortedRowModel, getFilteredRowModel } from "@tanstack/react-table"
@@ -9,6 +9,7 @@ import { z } from "zod"
 import { getCategoryList } from "../store/category/categoryThunk"
 import { useSelector } from "react-redux"
 import { getArticleSummary } from "../store/articles/articleSelector"
+import debounce from "lodash.debounce";
 
 
 export const useArticle = () => {
@@ -54,15 +55,8 @@ export const useArticle = () => {
         }
     }
 
-    const onUpdateArticle = async () => {
-
-    }
-
-    const onDeleteArticle = async (id: string) => {
-
-    }
-
     useEffect(() => {
+        document.title = 'Articles | Travelio.'
         dispatch(getArticleList(articlesParams))
         dispatch(getCategoryList())
     }, [])

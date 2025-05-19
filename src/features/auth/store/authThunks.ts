@@ -5,6 +5,8 @@ import { AuthApi } from "../constant/url";
 import type { LoginRequest, RegisterRequest } from "../models/request";
 import type { ResponseError } from "@/app/models/HttpError";
 import { handleThunkRequest } from "@/app/lib/handleThunkRequest";
+import { delay } from "@/app/lib/utils";
+import { StorageUtils } from "@/app/lib/storage";
 
 export const login = createAsyncThunk<LoginRegisterResponse, LoginRequest, { rejectValue: string | ResponseError }>('auth/login', async (payload, thunkAPI) => {
 
@@ -13,10 +15,11 @@ export const login = createAsyncThunk<LoginRegisterResponse, LoginRequest, { rej
     form.append('password', payload.password)
 
     return await handleThunkRequest(() => api.post(AuthApi.Login, form, {
-        headers : {
+        headers: {
             "Content-Type": 'application/x-www-form-urlencoded'
         }
     }), thunkAPI)
+
 });
 
 export const register = createAsyncThunk<LoginRegisterResponse, RegisterRequest, { rejectValue: string | ResponseError }>('auth/register', async (payload, thunkAPI) =>
@@ -26,3 +29,8 @@ export const register = createAsyncThunk<LoginRegisterResponse, RegisterRequest,
 export const me = createAsyncThunk<UserResponse, void, { rejectValue: string | ResponseError }>('auth/me', async (_, thunkAPI) =>
     await handleThunkRequest(() => api.get(AuthApi.Me), thunkAPI)
 );
+
+export const logout = createAsyncThunk("auth/logout", async () => {
+    await delay(2000);
+    StorageUtils.removeAll();
+});
