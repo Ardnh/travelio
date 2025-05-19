@@ -3,7 +3,7 @@ import { useThread } from "../hooks/useThreads";
 
 const ThreadPage = () => {
 
-    const { loading, articles, fetchMore, hasMore } = useThread()
+    const { loading, articles, hasMore, fetchMore, } = useThread()
 
     return (
         <div className="max-w-xl h-[45rem] mx-auto overflow-y-scroll">
