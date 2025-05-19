@@ -78,9 +78,8 @@ export const updateArticleById = createAsyncThunk<UpdateArticleResponse, UpdateA
             }
         };
 
-        const response = await api.put<UpdateArticleResponse>(
-            `${ArticlesApi.UpdateArticle}/${articlePayload.id}`,
-            articlePayload
+        const response = await api.put<UpdateArticleResponse>(`${ArticlesApi.UpdateArticle}/${articlePayload.id}`,
+            { data: {...articlePayload.data} }
         );
 
         return response.data;

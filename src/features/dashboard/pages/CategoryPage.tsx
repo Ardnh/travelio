@@ -20,11 +20,11 @@ const CategoryPage = () => {
                 </div>
 
                 <div className="grid grid-cols-12 mt-4 gap-3">
-                    <div className="h-[9rem] col-span-3 bg-amber-50 rounded-2xl p-4">
+                    <div className="h-[9rem] col-span-12 md:col-span-3 bg-amber-50 rounded-2xl p-4">
                         <div className="flex items-center gap-2"><Layers2 />Category</div>
                         <div className="font-semibold text-5xl mt-5 text-center">{ totalCategory }</div>
                     </div>
-                    <div className={`h-[9rem] col-span-9 bg-gray-50 flex flex-col justify-center rounded-2xl p-4 ${styles.gradient}`}>
+                    <div className={`h-[9rem] col-span-12 md:col-span-9 bg-gray-50 flex flex-col justify-center rounded-2xl p-4 ${styles.gradient}`}>
                         <div className="text-3xl font-semibold">Travelio.</div>
                         <div className="text-gray-500">Category management</div>
                     </div>

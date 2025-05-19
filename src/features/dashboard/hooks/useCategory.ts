@@ -13,6 +13,7 @@ export const useCategory = () => {
     const totalCategory = useSelector(getSumCategory)
 
     useEffect(() => {
+        document.title = 'Category | Travelio.'
         dispatch(getCategoryList())
     },[])
 

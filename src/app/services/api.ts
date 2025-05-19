@@ -12,7 +12,7 @@ interface IAxiosRequestHeaders extends AxiosRequestHeaders {
 
 export const api = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL,
-    timeout: 10000
+    timeout: 60000
 })
 
 api.interceptors.request.use((config: InternalAxiosRequestConfig<any>) => {

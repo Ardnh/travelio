@@ -1,8 +1,10 @@
 import { useAppDispatch, useAppSelector } from "@/app/stores"
-import { useEffect } from "react"
+import { useCallback, useEffect, type ChangeEvent } from "react"
 import { useNavigate } from "react-router-dom"
 import { getArticleThreadsList } from "../store/threads/threadsThunk"
-import { setArticleThreadsParams, setHasMore } from "../store/threads/threadsSlice"
+import { setArticleThreadsParams, setHasMore, setLoading } from "../store/threads/threadsSlice"
+import debounce from "lodash.debounce"
+import { toast } from "sonner"
 
 export const useThread = () => {
 
@@ -28,30 +30,48 @@ export const useThread = () => {
             dispatch(setHasMore(false))
             console.log("No more data");
         }
-        // setLoading(true);
-        // try {
-        //     const res = await axios.get<ApiResponse>(`/api/articles?page=${page}&pageSize=10`);
-        //     setArticles((prev) => [...prev, ...res.data.data]);
+    };
 
-        //     const total = res.data.meta.total;
-        //     setHasMore((page + 1) * 10 < total);
+    const handleSearch = async (term: string) => {
+        try {
 
-        //     setPage((prev) => prev + 1);
-        // } catch (error) {
-        //     console.error("Fetch error:", error);
-        //     setHasMore(false);
-        // } finally {
-        //     setLoading(false);
-        // }
+            if(term === "") {
+                dispatch(setLoading({actionName: 'searchArticle', status: false}))
+            } else {
+                dispatch(setLoading({actionName: 'searchArticle', status: true}))
+            }
+
+            await dispatch(getArticleThreadsList({
+                ...articleParams,
+                page: 1,
+                filterTitle: term
+            })).unwrap();
+        } catch (err) {
+            toast.success("Failed to search article")
+        } finally {
+            dispatch(setLoading({actionName: 'searchArticle', status: false}))
+        }
+    };
+
+    // Debounced version
+    const debouncedSearch = useCallback(
+        debounce((value: string) => handleSearch(value), 2000),
+        []
+    );
+
+    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+        debouncedSearch(e.target.value);
     };
 
     useEffect(() => {
+        document.title = 'Threads | Travelio.'
         dispatch(getArticleThreadsList(articleParams))
     }, [])
     return {
         loading,
         articles,
         hasMore,
-        fetchMore
+        fetchMore,
+        onChange,
     }
 }

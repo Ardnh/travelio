@@ -12,6 +12,7 @@ export type ThreadInitialState = {
     totalArticle: number
     loading: {
         getArticleIsLoading: boolean
+        searchByFilterIsLoading: boolean
         createCommentIsLoading : {
             index: number
             status: boolean
@@ -35,6 +36,7 @@ const initialState: ThreadInitialState = {
     hasMore: true,
     loading: {
         getArticleIsLoading: false,
+        searchByFilterIsLoading: false,
         createCommentIsLoading : {
             index: -1,
             status: false
@@ -55,6 +57,9 @@ export const threadsSlice = createSlice({
                 case 'createComment' :
                     state.loading.createCommentIsLoading.index = index ?? -1
                     state.loading.createCommentIsLoading.status = status
+                    break;
+                case 'searchArticle' :
+                    state.loading.searchByFilterIsLoading = status
                     break;
                 default:
                     break;
@@ -78,10 +83,11 @@ export const threadsSlice = createSlice({
                 const newArticles = data.map((item) => ({
                     ...item,
                     publishedAt: formatDate(item.publishedAt),
+                    cover_image_url: item.cover_image_url !== null && item.cover_image_url.startsWith("https")  ? item.cover_image_url : ""
                 }));
 
                 if (action.payload.meta.pagination.page === 1) {
-                    state.articles = newArticles;
+                    state.articles = newArticles
                 } else {
                     state.articles = [...state.articles, ...newArticles];
                 }
