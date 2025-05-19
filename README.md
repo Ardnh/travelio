@@ -29,6 +29,9 @@
 - React Router
 - Vite
 
+### Deployment
+- Netlify
+
 ### How to use ?
 
 #### 1. Clone this repository 
