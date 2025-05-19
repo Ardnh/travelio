@@ -35,27 +35,27 @@ export const commentSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder
-            .addCase(getCommentsList.fulfilled, (state, action) => {
+    //     builder
+    //         .addCase(getCommentsList.fulfilled, (state, action) => {
 
-            })
-            .addCase(getCommentsList.rejected, (state, action) => handleRejectedError(action))
-            .addCase(getCommentsById.fulfilled, (state, action) => {
+    //         })
+    //         .addCase(getCommentsList.rejected, (state, action) => handleRejectedError(action))
+    //         .addCase(getCommentsById.fulfilled, (state, action) => {
 
-            })
-            .addCase(getCommentsById.rejected, (state, action) => handleRejectedError(action))
-            .addCase(updateCommentsById.fulfilled, (state, action) => {
+    //         })
+    //         .addCase(getCommentsById.rejected, (state, action) => handleRejectedError(action))
+    //         .addCase(updateCommentsById.fulfilled, (state, action) => {
 
-            })
-            .addCase(updateCommentsById.rejected, (state, action) => handleRejectedError(action))
-            .addCase(createCommentsById.fulfilled, (state, action) => {
+    //         })
+    //         .addCase(updateCommentsById.rejected, (state, action) => handleRejectedError(action))
+    //         .addCase(createCommentsById.fulfilled, (state, action) => {
 
-            })
-            .addCase(createCommentsById.rejected, (state, action) => handleRejectedError(action))
-            .addCase(deleteCommentsById.fulfilled, (state, action) => {
+    //         })
+    //         .addCase(createCommentsById.rejected, (state, action) => handleRejectedError(action))
+    //         .addCase(deleteCommentsById.fulfilled, (state, action) => {
 
-            })
-            .addCase(deleteCommentsById.rejected, (state, action) => handleRejectedError(action))
+    //         })
+    //         .addCase(deleteCommentsById.rejected, (state, action) => handleRejectedError(action))
     }
 })
 

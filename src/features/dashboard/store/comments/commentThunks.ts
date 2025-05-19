@@ -23,5 +23,5 @@ export const updateCommentsById = createAsyncThunk<UpdateCommentResponse, Update
 )
 
 export const createCommentsById = createAsyncThunk<CreateCommentResponse, CreateCommentsRequest , { rejectValue: string | ResponseError }>('comments/createCommentsById', async (payload, thunkAPI) => 
-    await handleThunkRequest(() => api.put(CommentsApi.CreateComment, payload), thunkAPI)
+    await handleThunkRequest(() => api.post(CommentsApi.CreateComment, payload), thunkAPI)
 )
