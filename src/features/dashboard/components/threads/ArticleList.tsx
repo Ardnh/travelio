@@ -16,6 +16,7 @@ type Props = {
 const ArticlesList = ({ articles, hasMore, loading, fetchMore }: Props) => {
 
     const observer = useRef<IntersectionObserver | null>(null);
+    
     const lastElementRef = useCallback(
         (node: HTMLDivElement | null) => {
             if (loading) return;
