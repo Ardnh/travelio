@@ -26,7 +26,7 @@
 - React
 - Typescript
 - Redux Toolkit (RTK)
-- Shadcn
+- Shadcn UI
 - Tailwindcss 4
 - React Router
 - Vite
