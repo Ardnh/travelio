@@ -7,12 +7,14 @@
 ##### Threads
 - List Category
 - Create New Comment on Article
+- Auto load articles
 
 ##### Article Management
 - List Article
 - Create New Article
 - Update Article
 - Delete Article
+- View detail Article
 
 ##### Category Management
 - List Category
@@ -30,7 +32,7 @@
 - Vite
 
 ### Deployment
-- Netlify
+- Netlify with CI/CD
 
 ### How to use ?
 
